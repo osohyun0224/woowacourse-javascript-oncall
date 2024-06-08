@@ -113,6 +113,18 @@ class App {
         this.currentIndices[dayType === 'Weekend' ? 1 : 0] = (index + 1) % workers.length;
         return worker;
     }
+
+    displaySchedule(month, startDay) {
+      const totalDays = daysInMonth[month];
+      const startIndex = weekDays.indexOf(startDay);
+      for (let i = 1; i <= totalDays; i++) {
+          const dayOfWeek = weekDays[(startIndex + i - 1) % 7];
+          const dayType = this.determineDayType(month, i, dayOfWeek);
+          const worker = this.getNextWorker('', dayType);
+          const dayLabel = dayType === 'Holiday' ? '(휴일)' : '';
+          MissionUtils.Console.print(`${month}월 ${i}일 ${dayOfWeek}${dayLabel} ${worker}`);
+      }
+  }
 }
 
 export default App;
